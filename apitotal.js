@@ -1,7 +1,7 @@
 //엄격한 코드 검사  <통합>
 'use strict';
 
-/************* include library **************/
+/************* include library ***************/
 var express = require('express');
 var mysql =    require('mysql');
 var api     = express();
