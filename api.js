@@ -7,17 +7,18 @@ var mysql   = require('mysql');
 var api     = express();
 var db      = require('./db');
 
+
+/************* Routing **************/
+//api Index
+api.get('/', (req, res, next) => {
+    
 var connection = mysql.createConnection({
     host     : 'ls-712a3de0f216372c332622b5ed5c6f22fe2f67bd.cu0xyssgzj43.ap-northeast-2.rds.amazonaws.com',
     user     : 'dbmasteruser',
     password : 'buackr!!##',
     database : 'BU'
-});
-
-/************* Routing **************/
-//api Index
-api.get('/', (req, res, next) => {
-
+    });
+    
 
 var dbInfo = {
 
@@ -28,7 +29,27 @@ var dbInfo = {
     database: 'BU',
     multipleStatements: true
 }
+api.get('/hello2', (req, res, next) => {
+    var pId = "0";
+    if(req.query.id !== null && req.query.id !== undefined){
+        pId = req.query.id;
+    }
 
+    res.send("510호 강의실 시설 좋아요"+ pId);
+});
+// post
+api.post('/hello', (req, res, next) => {
+    var pId = "0";
+/*
+    name ,
+    number 
+*/
+    console.log("body.id = "+req.body.id);
+    if(req.body.id !== null && req.body.id !== undefined){
+        pId = req.body.id;
+    }    
+    res.send("백석대학교 :"+ pId + "정보는? ");
+});
 
     connection.connect();
     db.query('SELECT * FROM sensor_data ', function (error, results, fields) {
@@ -77,5 +98,4 @@ api.get('/query_echo', (req, res, next) => {
 
 
 module.exports = api;
-
 // res.send(results)
