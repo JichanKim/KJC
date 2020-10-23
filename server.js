@@ -23,7 +23,7 @@ server.use(express.static(path.join(__dirname, '/web')));
 
 //intro
 server.get('/', (req, res, next) => {
-    res.render("index.html");
+    res.render("index.html");n
 });
 
 //Quary String에 대하여 알아보자
