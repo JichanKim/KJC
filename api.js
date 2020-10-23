@@ -77,6 +77,5 @@ api.get('/query_echo', (req, res, next) => {
 
 
 module.exports = api;
-// 231654984321
+
 // res.send(results)
-//hty
