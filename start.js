@@ -4,7 +4,6 @@
 const http    = require('http');
 const express = require('express');
 const server  = express();
-
 const serverPort = 80;
 
 
@@ -14,6 +13,7 @@ server.use('/',            require('./server'));
 server.use('/api',         require('./api'));
 server.use('/apiosy',         require('./apiosy'));
 server.use('/apitotal',         require('./apitotal'));
+server.use('/client',             require('./client'));
 /************* Running server **************/
 const httpServer = http.createServer(server);
 httpServer.listen(serverPort, () => {
