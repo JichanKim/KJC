@@ -4,7 +4,7 @@
 const http    = require('http');
 const express = require('express');
 const server  = express();
-const serverPort = 1669;
+const serverPort = 3000;
 
 
 /************* Routing **************/
