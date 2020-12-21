@@ -3,56 +3,52 @@
 
 /************* include library **************/
 var express = require('express');
-var mysql =    require('mysql');
-var api     = express();
+var DB   = require('./DB');
+var api  = express();
+
+
+api.use(express.static(__dirname + '/node_modules/startbootstrap-sb-admin-2'));
 
 /************* Routing **************/
 //api Index
-api.get('/', (req, res, next) => {
-    console.log("init start");
-    db.query(' select * from sensor_data ' , function(error, results, fields){
-        if (error) {
+api.get('/sensor', (req, res, next) => {
+
+    DB.query('SELECT * FROM sensor_data', function(error, results, fielads){
+        if(error){
             console.log(error);
         }
-
         console.log(results);
-        res.send(rewsults);
+        res.send(results);
     });
-
-/************* Routing **************/
-//api Index
-    var connection = mysql.createConnection({
-        host: 'ls-712a3de0f216372c332622b5ed5c6f22fe2f67bd.cu0xyssgzj43.ap-northeast-2.rds.amazonaws.com',
-        port: '3306',
-        user: 'dbmasteruser',
-        password:' buackr!!##',
-        database: 'BU',
-        multipleStatements: true
-    });
-
-    var connerction = mysql.createConnection({
-        host : dbInfo.host,
-        user : dbInfo.user,
-        password : dbInfo.password,
-        database : dbInfo.database
-    })
-    connection.connet();
-    connection.query('SELECT * FROM sensor-data' , function (error, results, fields){
-        if (error) {
-            console.log(error);
-        }
-
-        console.log(results);
-    });
-    connection.end();
-    res.send("Welcome is API Function");
 });
-    api.get('/hello', (req, res, next) => {
-    var pId = "0";
+
+/************* Routing **************/
+//api Index
+api.get('/hello2', (req, res, next) => {
+    var pId ="0";
     if(req.query.id !== null && req.query.id !== undefined){
         pId = req.query.id;
     }
-    res.send("HTTP GET > Hello Nodejs");
+
+    res.send("510호"+pId);
+});
+
+api.post('/hello', (req, res, next) => {
+    var pId = "0";
+    var name = "";
+    var num = "";
+
+    if(req.query.id !== null && req.query.id !== undefined){
+        pId = req.query.id;
+    }
+    if(req.query.name !== null && req.query.name !== undefined){
+        name = req.query.name;
+    }
+    if(req.query.num !== null && req.query.num !== undefined){
+        num = req.query.num;
+    }
+
+    res.send("백석대학교 : " + pId + name + num);
 });
 
 api.post('/insSensor', (req, res, next) => {
@@ -60,23 +56,69 @@ api.post('/insSensor', (req, res, next) => {
     var sensorType = req.body.sensorType;// "";
     var sensorValue = req.body.sensorValue;//"";
     var userId = req.body.userId; //"";
-    
-    var sql = " insert into sensor_data (sensor_type, sensor_value, sensor_usr_id, ins_date, upd_date ) values ";
-    sql += " ('"+ sensorType +"', "+ sensorValue +", '"+ userId +"', now() , now()) ";
-    console.log(sql);
-    connection.connect();
-    connection.query(sql , function(error, results, fields){
 
+    var sql = "insert into sensor_data(sensor_type, sensor_value, sensor_user, ins_date) values ";
+    sql += " ('"+ sensorType +"', "+ sensorValue +", '"+ userId +"', now() )";
+    console.log(sql);
+
+    console.log("init start");
+    DB.query(sql , function(error, results, fields){
         console.log(error);
         console.log(results);
         res.send(results);
     })
 
+
     //req.body.sensorIdx
     //req.body.sensorType
     //req.body.sensorValue
 
-})
+});
+
+
+/* bootstarap */
+
+
+api.get('/insSensor', (req, res, next) => {
+    
+    // let sensor_data = {
+    //         sensorType : "0",
+    //         sensorValue : 20,
+    //         userId : '20152829'
+    // }
+   
+    // if(req.query.sensorType !== null && req.query.sensorType !== undefined){
+    //     sensor_data.sensorType = req.query.sensorType;
+    // }
+    // if(req.query.sensorValue !== null && req.query.sensorValue !== undefined){
+    //     sensor_data.sensorValue = req.query.sensorValue;
+    // }
+    // if(req.query.userId !== null && req.query.userId !== undefined){
+    //     sensor_data.userId = req.query.userId;
+    // }
+    // var sql = "insert into sensor_data(sensor_type, sensor_value, sensor_user, ins_date) values ";
+    // sql += " ('"+ sensor_data.sensorType +"', "+ sensor_data.sensorValue +", '"+ sensor_data.userId +"', now() )";
+    // console.log(sql);
+    
+
+    var sensorType = req.query.sensorType;// "";
+    var sensorValue = req.query.sensorValue;//"";
+    var userId = req.query.userId; //"";
+
+    var sql = "insert into sensor_data(sensor_type, sensor_value, sensor_user, ins_date) values ";
+    sql += " ('"+ sensorType +"', "+ sensorValue +", '"+ userId +"', now() )";
+    console.log(sql);
+    
+    console.log("init start");
+    DB.query(sql , function(error, results, fields){
+        console.log(error);
+        console.log(results);
+        res.send(results);
+    })
+});
+
+
+
 //Query String
 // ex) http://localhost/api/echo?param1=123&param2=321
 api.get('/query_echo', (req, res, next) => {

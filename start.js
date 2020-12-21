@@ -5,13 +5,14 @@ const http    = require('http');
 const express = require('express');
 const server  = express();
 
-const serverPort = 80;
+const serverPort = 3000;
 
 
 /************* Routing **************/
 //웹페이지의 세부 주소를 지정한다.
 server.use('/',            require('./server'));
-server.use('/api',         require('./api'));
+server.use('/api',        require('./api'));
+server.use('/client',   require('./client'));
 
 /************* Running server **************/
 const httpServer = http.createServer(server);
